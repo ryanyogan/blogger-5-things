@@ -13,6 +13,7 @@ const allPostsQuery = gql`
       id
       imageUrl
       description
+      createdAt
     }
   }
 `;

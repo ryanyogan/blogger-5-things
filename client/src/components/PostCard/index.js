@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import styled from "styled-components/native";
 import { View, Image, Text, StyleSheet } from "react-native";
 
+import PostCardHeader from "./PostCardHeader";
+
 const RootView = styled.View`
-  min-height: 180;
+  min-height: 350;
   width: 100%;
   padding: 7px;
   background-color: ${props => props.theme.WHITE};
@@ -16,30 +18,28 @@ const RootView = styled.View`
 
 const CardContentContainer = styled.View`
   flex: 1;
-  padding: 10px 20px 10px 0px;
+  padding: 10px 0px 10px 0px;
 `;
 
-const CardContentText = styled.Text`
-  font-size: 14;
-  text-align: left;
-  font-weight: 500;
-  color: ${props => props.theme.SECONDARY};
+const ImageContainer = styled.View`
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 10px;
 `;
-
-const IMAGE_HEIGHT = 300;
-const IMAGE_WIDTH = "100%";
 
 const PuppyImage = styled.Image`
-  height: ${IMAGE_HEIGHT};
-  width: ${IMAGE_WIDTH};
-  border-radius: 30px;
+  height: 100%;
+  width: 100%;
+  border-radius: 15px;
 `;
 
-const PostCard = ({ description, imageUrl }) => (
+const PostCard = ({ description, imageUrl, createdAt }) => (
   <RootView>
+    <PostCardHeader createdAt={createdAt} />
     <CardContentContainer>
-      <PuppyImage source={{ uri: imageUrl }} />
-      <CardContentText>{description}</CardContentText>
+      <ImageContainer>
+        <PuppyImage source={{ uri: imageUrl }} />
+      </ImageContainer>
     </CardContentContainer>
   </RootView>
 );

@@ -7,3 +7,6 @@ export const COLORS = {
   WHITE: "#FFFFFF",
   LIGHT_GREY: "#CAD0D6"
 };
+
+export const mockAvatar =
+  "https://pbs.twimg.com/profile_images/904781910928265216/CUDzxIhF_400x400.jpg";
