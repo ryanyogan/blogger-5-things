@@ -19,7 +19,7 @@ const createPostMutation = gql`
   }
 `;
 
-class CreatePage extends Component {
+class CreatePostScreen extends Component {
   state = {
     description: "",
     imageUrl: ""
@@ -146,5 +146,5 @@ const styles = StyleSheet.create({
 });
 
 export default graphql(createPostMutation, { name: "createPostMutation" })(
-  CreatePage
+  CreatePostScreen
 );
