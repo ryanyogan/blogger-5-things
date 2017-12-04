@@ -6,7 +6,7 @@ import gql from "graphql-tag";
 import { ActivityIndicator, FlatList } from "react-native";
 import PostCard from "../components/PostCard";
 
-const allPostsQuery = gql`
+export const allPostsQuery = gql`
   query {
     allPosts(orderBy: createdAt_DESC) {
       id

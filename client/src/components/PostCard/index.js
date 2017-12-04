@@ -5,7 +5,7 @@ import { View, Image, Text, StyleSheet } from "react-native";
 import PostCardHeader from "./PostCardHeader";
 
 const RootView = styled.View`
-  min-height: 350;
+  min-height: 180;
   width: 100%;
   padding: 7px;
   background-color: ${props => props.theme.WHITE};
@@ -21,25 +21,18 @@ const CardContentContainer = styled.View`
   padding: 10px 0px 10px 0px;
 `;
 
-const ImageContainer = styled.View`
-  justify-content: center;
-  align-items: center;
-  padding-bottom: 10px;
-`;
-
-const PuppyImage = styled.Image`
-  height: 100%;
-  width: 100%;
-  border-radius: 15px;
+const CardContentText = styled.Text`
+  font-size: 14;
+  text-align: left;
+  font-weight: 500;
+  color: ${props => props.theme.SECONDARY};
 `;
 
 const PostCard = ({ description, imageUrl, createdAt }) => (
   <RootView>
     <PostCardHeader createdAt={createdAt} />
     <CardContentContainer>
-      <ImageContainer>
-        <PuppyImage source={{ uri: imageUrl }} />
-      </ImageContainer>
+      <CardContentText>{description}</CardContentText>
     </CardContentContainer>
   </RootView>
 );

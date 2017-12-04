@@ -11,10 +11,15 @@ import {
   TouchableHighlight
 } from "react-native";
 
+import { allPostsQuery } from "./HomeScreen";
+
 const createPostMutation = gql`
   mutation($description: String!, $imageUrl: String!) {
     createPost(description: $description, imageUrl: $imageUrl) {
       id
+      description
+      createdAt
+      imageUrl
     }
   }
 `;
@@ -22,37 +27,19 @@ const createPostMutation = gql`
 class CreatePostScreen extends Component {
   state = {
     description: "",
-    imageUrl: ""
+    imageUrl:
+      "https://pbs.twimg.com/profile_images/904781910928265216/CUDzxIhF_400x400.jpg"
   };
 
   render() {
+    console.log(this.props);
     return (
       <View style={styles.container}>
-        <View style={styles.addImageContainer}>
-          <View style={styles.addImage}>
-            <View style={styles.photoPlaceholderContainer}>
-              {this.state.imageUrl.length > 0 ? (
-                <Image
-                  source={{ uri: this.state.imageUrl }}
-                  style={{ height: 80, width: 80 }}
-                  resizeMode="contain"
-                />
-              ) : (
-                <View style={styles.photoPlaceholder} />
-              )}
-            </View>
-            <TextInput
-              style={styles.imageUrlInput}
-              placeholder="Paste your image URL here..."
-              onChangeText={text => this.setState({ imageUrl: text })}
-              value={this.state.imageUrl}
-              placeholderTextColor="rgba(42,126,211,.5)"
-            />
-          </View>
-        </View>
         <TextInput
           style={styles.descriptionInput}
-          placeholder="Type a description..."
+          multiline={true}
+          autoFocus={true}
+          placeholder="Type a cool post..."
           onChangeText={text => this.setState({ description: text })}
           value={this.state.description}
         />
@@ -60,7 +47,7 @@ class CreatePostScreen extends Component {
         <View style={styles.buttons}>
           <TouchableHighlight
             style={styles.cancelButton}
-            onPress={() => this.props.onComplete()}
+            onPress={() => this.props.navigation.goBack(null)}
           >
             <Text style={styles.cancelButtonText}>Cancel</Text>
           </TouchableHighlight>
@@ -78,9 +65,18 @@ class CreatePostScreen extends Component {
   _createPost = async () => {
     const { description, imageUrl } = this.state;
     await this.props.createPostMutation({
-      variables: { description, imageUrl }
+      variables: { description, imageUrl },
+      update: (store, { data: { createPost } }) => {
+        const data = store.readQuery({ query: allPostsQuery });
+        data.allPosts.splice(0, 0, createPost);
+        store.writeQuery({
+          query: allPostsQuery,
+          data
+        });
+      }
     });
-    this.props.onComplete();
+
+    this.props.navigation.goBack(null);
   };
 }
 
@@ -114,7 +110,7 @@ const styles = StyleSheet.create({
   },
   descriptionInput: {
     paddingHorizontal: 20,
-    height: 100,
+    height: "50%",
     fontSize: 20
   },
   buttons: {
