@@ -4,7 +4,7 @@ import Touchable from "@appandflow/touchable";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import { ActivityIndicator, FlatList } from "react-native";
-import Post from "./Post";
+import PostCard from "./PostCard";
 import CreatePage from "./CreatePage";
 
 const allPostsQuery = gql`
@@ -29,16 +29,24 @@ const CreateButtonContainer = styled(Touchable).attrs({
 })`
   justify-content: center;
   align-items: center;
+  position: absolute;
+  right: 10;
+  bottom: 10;
+  height: 50;
+  width: 50;
+  border-radius: 25;
+  background-color: rgba(39, 174, 96, 1);
+  z-index: 1;
+  shadow-opacity: 0.4;
+  shadow-radius: 5;
+  shadow-offset: 0px 2px;
+  shadow-color: #000;
 `;
 
 const CreateButtonText = styled.Text`
-  background-color: rgba(39, 174, 96, 1);
   color: #fff;
-  text-align: center;
-  font-size: 22;
-  height: 60;
-  width: 100%;
-  padding-top: 18;
+  font-size: 24;
+  font-weight: 500;
 `;
 
 class ListPage extends Component {
@@ -47,7 +55,7 @@ class ListPage extends Component {
     user: undefined
   };
 
-  _renderItem = ({ item }) => <Post {...item} />;
+  _renderItem = ({ item }) => <PostCard {...item} />;
 
   _createPost = () => this.setState({ modalVisible: true });
 
@@ -85,7 +93,7 @@ class ListPage extends Component {
         />
 
         <CreateButtonContainer onPress={this._createPost}>
-          <CreateButtonText>Create Post</CreateButtonText>
+          <CreateButtonText>+</CreateButtonText>
         </CreateButtonContainer>
       </RootView>
     );
