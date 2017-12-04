@@ -25,7 +25,7 @@ class Post extends Component {
           <Image
             source={{ uri: this.props.imageUrl }}
             style={{ width, height }}
-            resizeModel="contain"
+            resizeMode="contain"
           />
         </View>
         <Text style={styles.title}>{this.props.description}</Text>

@@ -14,7 +14,7 @@ import CreatePage from "./CreatePage";
 
 const allPostsQuery = gql`
   query {
-    allPosts(order: createdAt_DESC) {
+    allPosts(orderBy: createdAt_DESC) {
       id
       imageUrl
       description
@@ -23,16 +23,25 @@ const allPostsQuery = gql`
 `;
 
 class ListPage extends Component {
-  ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-  state = {
-    dataSource: this.ds.cloneWithRows([]),
-    modalVisible: false,
-    user: undefined
-  };
+  constructor(props) {
+    super(props);
+    const ds = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2
+    });
 
-  componenentWillReceiveProps(nextProps) {
+    this.state = {
+      dataSource: ds.cloneWithRows([]),
+      modalVisible: false,
+      user: undefined
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
     if (!nextProps.allPostsQuery.loading && !nextProps.allPostsQuery.error) {
       const { dataSource } = this.state;
+
+      console.log(nextProps);
+      console.log(this.props); // -> Goes to the Debugger Console, not Xcode :)
 
       this.setState({
         dataSource: dataSource.cloneWithRows(nextProps.allPostsQuery.allPosts)
@@ -75,7 +84,7 @@ class ListPage extends Component {
     );
   }
 
-  _createPost = () => this.setState({ modalVisible: false });
+  _createPost = () => this.setState({ modalVisible: true });
 }
 
 const styles = StyleSheet.create({
