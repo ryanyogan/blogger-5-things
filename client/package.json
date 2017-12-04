@@ -13,14 +13,15 @@
   },
   "private": true,
   "dependencies": {
+    "@appandflow/touchable": "^1.2.2",
     "apollo-client-preset": "^1.0.4",
     "expo": "^23.0.0",
     "graphql": "^0.11.7",
     "graphql-tag": "^2.5.0",
     "react": "16.0.0",
     "react-apollo": "^2.0.1",
-    "react-native":
-      "https://github.com/expo/react-native/archive/sdk-23.0.0.tar.gz"
+    "react-native": "https://github.com/expo/react-native/archive/sdk-23.0.0.tar.gz",
+    "styled-components": "^2.2.4"
   },
   "devDependencies": {
     "jest-expo": "^23.0.1",

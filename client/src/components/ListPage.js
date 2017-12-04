@@ -1,14 +1,9 @@
 import React, { Component } from "react";
+import styled from "styled-components/native";
+import Touchable from "@appandflow/touchable";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
-import {
-  View,
-  TouchableHighlight,
-  ListView,
-  Modal,
-  StyleSheet,
-  Text
-} from "react-native";
+import { ActivityIndicator, FlatList } from "react-native";
 import Post from "./Post";
 import CreatePage from "./CreatePage";
 
@@ -22,37 +17,53 @@ const allPostsQuery = gql`
   }
 `;
 
+const RootView = styled.View`
+  flex: 1;
+  padding-top: 5;
+`;
+
+const Modal = styled.Modal``;
+
+const CreateButtonContainer = styled(Touchable).attrs({
+  feedback: "opacity"
+})`
+  justify-content: center;
+  align-items: center;
+`;
+
+const CreateButtonText = styled.Text`
+  background-color: rgba(39, 174, 96, 1);
+  color: #fff;
+  text-align: center;
+  font-size: 22;
+  height: 60;
+  width: 100%;
+  padding-top: 18;
+`;
+
 class ListPage extends Component {
-  constructor(props) {
-    super(props);
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
+  state = {
+    modalVisible: false,
+    user: undefined
+  };
 
-    this.state = {
-      dataSource: ds.cloneWithRows([]),
-      modalVisible: false,
-      user: undefined
-    };
-  }
+  _renderItem = ({ item }) => <Post {...item} />;
 
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.allPostsQuery.loading && !nextProps.allPostsQuery.error) {
-      const { dataSource } = this.state;
-
-      this.setState({
-        dataSource: dataSource.cloneWithRows(nextProps.allPostsQuery.allPosts)
-      });
-    }
-  }
+  _createPost = () => this.setState({ modalVisible: true });
 
   render() {
-    if (this.props.allPostsQuery.loading) {
-      return <Text>Loading</Text>;
+    const { allPostsQuery } = this.props;
+
+    if (allPostsQuery.loading) {
+      return (
+        <RootView>
+          <ActivityIndicator size="large" />
+        </RootView>
+      );
     }
 
     return (
-      <View style={styles.container}>
+      <RootView>
         <Modal
           animationType="slide"
           transparent={true}
@@ -66,42 +77,19 @@ class ListPage extends Component {
           />
         </Modal>
 
-        <ListView
-          enableEmptySections={true}
-          dataSource={this.state.dataSource}
-          renderRow={post => <Post {...post} />}
+        <FlatList
+          contentContainerStyle={{ alignSelf: "stretch" }}
+          data={allPostsQuery.allPosts}
+          keyExtractor={item => item.id}
+          renderItem={this._renderItem}
         />
-        <TouchableHighlight
-          style={styles.createPostButtonContainer}
-          onPress={this._createPost}
-        >
-          <Text style={styles.createPostButton}>Create Post</Text>
-        </TouchableHighlight>
-      </View>
+
+        <CreateButtonContainer onPress={this._createPost}>
+          <CreateButtonText>Create Post</CreateButtonText>
+        </CreateButtonContainer>
+      </RootView>
     );
   }
-
-  _createPost = () => this.setState({ modalVisible: true });
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 22
-  },
-  createPostButtonContainer: {
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  createPostButton: {
-    backgroundColor: "rgba(39, 174, 96, 1)",
-    color: "#fff",
-    textAlign: "center",
-    fontSize: 22,
-    height: 60,
-    width: 480,
-    paddingTop: 18
-  }
-});
 
 export default graphql(allPostsQuery, { name: "allPostsQuery" })(ListPage);
