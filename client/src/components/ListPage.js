@@ -40,9 +40,6 @@ class ListPage extends Component {
     if (!nextProps.allPostsQuery.loading && !nextProps.allPostsQuery.error) {
       const { dataSource } = this.state;
 
-      console.log(nextProps);
-      console.log(this.props); // -> Goes to the Debugger Console, not Xcode :)
-
       this.setState({
         dataSource: dataSource.cloneWithRows(nextProps.allPostsQuery.allPosts)
       });
