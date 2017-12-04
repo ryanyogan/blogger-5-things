@@ -1,5 +1,4 @@
-import React from "react";
-import Post from "./Post";
+import React, { Component } from "react";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import {
@@ -10,6 +9,7 @@ import {
   StyleSheet,
   Text
 } from "react-native";
+import Post from "./Post";
 import CreatePage from "./CreatePage";
 
 const allPostsQuery = gql`
@@ -23,13 +23,12 @@ const allPostsQuery = gql`
 `;
 
 class ListPage extends Component {
+  ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
   state = {
-    dataSource: ds.cloneWithRows([]),
+    dataSource: this.ds.cloneWithRows([]),
     modalVisible: false,
     user: undefined
   };
-
-  ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
   componenentWillReceiveProps(nextProps) {
     if (!nextProps.allPostsQuery.loading && !nextProps.allPostsQuery.error) {
