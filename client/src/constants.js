@@ -1,6 +1,9 @@
 export const GRAPH_COOL_EP =
   "https://api.graph.cool/simple/v1/cjarfyodp01c701724ad7l0ua";
 
+export const GRAPH_COOL_SUB_EP =
+  "wss://subscriptions.graph.cool/v1/cjarfyodp01c701724ad7l0ua";
+
 export const COLORS = {
   PRIMARY: "rgba(39,174,96,1)",
   SECONDARY: "#444B52",
