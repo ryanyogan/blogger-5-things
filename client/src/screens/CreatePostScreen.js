@@ -26,6 +26,7 @@ const createPostMutation = gql`
 
 class CreatePostScreen extends Component {
   state = {
+    postDisabled: false,
     description: "",
     imageUrl:
       "https://pbs.twimg.com/profile_images/904781910928265216/CUDzxIhF_400x400.jpg"
@@ -53,6 +54,7 @@ class CreatePostScreen extends Component {
           <TouchableHighlight
             style={styles.saveButton}
             onPress={() => this._createPost()}
+            disabled={this.state.postDisabled}
           >
             <Text style={styles.saveButtonText}>Create Post</Text>
           </TouchableHighlight>
@@ -62,6 +64,7 @@ class CreatePostScreen extends Component {
   }
 
   _createPost = async () => {
+    this.setState({ postDisabled: true });
     const { description, imageUrl } = this.state;
     await this.props.createPostMutation({
       variables: { description, imageUrl }
