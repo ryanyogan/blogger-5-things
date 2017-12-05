@@ -64,15 +64,15 @@ class CreatePostScreen extends Component {
   _createPost = async () => {
     const { description, imageUrl } = this.state;
     await this.props.createPostMutation({
-      variables: { description, imageUrl },
-      update: (store, { data: { createPost } }) => {
-        const data = store.readQuery({ query: allPostsQuery });
-        data.allPosts.splice(0, 0, createPost);
-        store.writeQuery({
-          query: allPostsQuery,
-          data
-        });
-      }
+      variables: { description, imageUrl }
+      // update: (store, { data: { createPost } }) => {
+      //   const data = store.readQuery({ query: allPostsQuery });
+      //   data.allPosts.splice(0, 0, createPost);
+      //   store.writeQuery({
+      //     query: allPostsQuery,
+      //     data
+      //   });
+      // }
     });
 
     this.props.navigation.goBack(null);

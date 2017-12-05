@@ -19,7 +19,7 @@ const TabNavigation = TabNavigator(
     Home: {
       screen: HomeScreen,
       navigationOptions: () => ({
-        headerTitle: "Blogger",
+        headerTitle: "Santa Barbara JS",
         tabBarIcon: ({ tintColor }) => (
           <FontAwesome size={ICON_SIZE} color={tintColor} name="home" />
         )
